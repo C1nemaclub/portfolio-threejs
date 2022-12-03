@@ -7,7 +7,6 @@ import { Pane } from 'tweakpane';
 import fragmentShader from '../src/shaders/fragmentShader.glsl';
 import vertexShader from '../src/shaders/vertexShader.glsl';
 import cameraToPosition from '../src/CameraController/CameraController.js';
-
 //Debug
 const pane = new Pane();
 const debugObject = {
@@ -33,8 +32,8 @@ const playHitSound = () => {
  */
 const progress = document.querySelector('.progress');
 const loadingBarElement = document.querySelector('.loading-bar');
-const homeSection = document.querySelector('.home-section');
 const loadingScreen = document.querySelector('.loading-screen');
+const navBar = document.querySelector('nav');
 
 const loadingManager = new THREE.LoadingManager(
   // Loaded
@@ -47,16 +46,16 @@ const loadingManager = new THREE.LoadingManager(
         value: 0,
         delay: 1,
       });
-
       // Update loadingBarElement
       loadingBarElement.classList.add('ended');
       progress.classList.add('ended');
       loadingScreen.classList.add('ended');
       loadingBarElement.style.transform = '';
-      homeSection.style.opacity = '1';
-
       //playHitSound();
     }, 500);
+    window.setTimeout(() => {
+      navBar.classList.add('selected');
+    }, 4000);
   },
 
   // Progress
@@ -533,24 +532,6 @@ settings
 //   });
 scene.add(camera);
 
-const aboutLink = document.querySelector('.about');
-
-aboutLink.addEventListener('click', () => {
-  cameraToPosition(
-    camera,
-    new THREE.Vector3(-1.739, 10, 3.47),
-    new THREE.Vector3(-2.322, -1.571, -2.322)
-  );
-});
-//About frame pos
-// camera.position.set(-1.739, 10, 3.478);
-// camera.rotation.set(-2.322, -1.571, -2.322);
-
-// cameraToPosition(
-//   camera,
-//   new THREE.Vector3(-1.739, 10, 3.47),
-//   new THREE.Vector3(-2.322, -1.571, -2.322)
-// );
 
 // Controls
 // const controls = new OrbitControls(camera, canvas);
@@ -584,33 +565,72 @@ scene.add(ambientlights);
 const raycaster = new THREE.Raycaster();
 raycaster.setFromCamera(cursor, camera);
 
-// camera.position.set(-1.01,7.57,-2.53)
-// camera.rotation.set(-1.74,-1.45,-1.74)
+//section Array
+const sectionArray = [
+  {
+    name: 'contact',
+    position: new THREE.Vector3(0, 0, 0),
+    rotation: new THREE.Vector3(1, 1, 1),
+  },
+  {
+    name: 'projects',
+    position: new THREE.Vector3(-1.01, 7.67, -2.53),
+    rotation: new THREE.Vector3(-1.74, -1.45, -1.74),
+  },
+  {
+    name: 'about',
+    position: new THREE.Vector3(-1.739, 10, 3.47),
+    rotation: new THREE.Vector3(-2.322, -1.571, -2.322),
+  },
+];
+const contentSections = document.querySelectorAll('.content-section');
 
-const projects = document.querySelector('.projects');
+const navLinks = document.querySelectorAll('.navlink');
+navLinks.forEach((link) => {
+  link.addEventListener('click', (e) => {
+    const target = document.querySelector(link.dataset.target);
+    contentSections.forEach((section) => {
+      section.classList.remove('active-section');
+    });
+    navLinks.forEach((item) => {
+      item.classList.remove('active');
+    });
+    link.classList.add('active');
+    target.classList.add('active-section');
+    let activeSection = null;
+    navLinks.forEach((item) => {
+      if (item.className.includes('active')) {
+        activeSection = item.className.split(' ')[0];
+      }
+    });
+    sectionArray.forEach((section) => {
+      if (section.name === activeSection) {
+        console.log(section);
+        cameraToPosition(camera, section.position, section.rotation, testFunc);
+      }
+    });
+  });
+});
 
-projects.addEventListener('click', () => {
+const backBtn = document.querySelector('.back-btn');
+
+
+backBtn.addEventListener('click', () => {
+  navLinks.forEach((item) => {
+    item.classList.remove('active');
+  });
+  contentSections.forEach((section) => {
+    section.classList.remove('active-section');
+  });
   cameraToPosition(
     camera,
-    new THREE.Vector3(-1.01, 7.67, -2.53),
-    new THREE.Vector3(-1.74, -1.45, -1.74)
+    new THREE.Vector3(-17.61, 12.87, -1.77),
+    new THREE.Vector3(-2.38, -1.09, -2.44),
+    testFunc
   );
-  // gsap.to(camera.position, {
-  //   x: -1.01,
-  //   y: 7.67,
-  //   z: -2.53,
-  //   duration: 2,
-  // });
-  // gsap.to(camera.rotation, {
-  //   x: -1.74,
-  //   y: -1.45,
-  //   z: -1.74,
-  //   duration: 2,
-  // });
-  setTimeout(() => {
-    // homeSection.classList.add('selected');
-  }, 1000);
 });
+
+function testFunc() {}
 
 /**
  * Animate
@@ -635,7 +655,7 @@ const tick = () => {
 
   // Update controls
   //controls.update();
-  // console.log(camera.position);
+  //console.log(camera.position);
   // console.log(camera.rotation);
 
   geometry.verticesNeedUpdate = true;

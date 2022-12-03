@@ -11,13 +11,27 @@
       <div class="loading-bar"></div>
     </section>
     <h3 class="progress">0%</h3>
-    <section class="home-section">
+    <nav>
+      <img src="../static/arrowleft.png" alt="back-button" class="back-btn" />
       <ul>
         <li>SANTIAGO VELASQUEZ MONTOYA</li>
-        <li class="projects">PROJECTS</li>
-        <li class="about">ABOUT ME</li>
-        <li>CONTACT ME</li>
+        <li class="projects navlink" data-target=".projects-section">
+          PROJECTS
+        </li>
+        <li class="about navlink" data-target=".about-section">ABOUT ME</li>
+        <li class="contact navlink" data-target=".contact-section">
+          CONTACT ME
+        </li>
       </ul>
+    </nav>
+    <section class="projects-section content-section">
+      <h1>PROJECTS</h1>
+    </section>
+    <section class="about-section content-section">
+      <h1>ABOUT ME</h1>
+    </section>
+    <section class="contact-section content-section">
+      <h1>CONTACT</h1>
     </section>
   </body>
 </html>
