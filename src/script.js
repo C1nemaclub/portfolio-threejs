@@ -112,14 +112,14 @@ scene.add(overlay);
 //Particles
 
 const galaxyConfig = {
-  outsideColor: '#fcff07',
-  insideColor: '#00e2ff',
+  outsideColor: '#ff5200',
+  insideColor: '#00ffd3',
   branches: 6,
   spin: 1,
   randomness: 1,
-  randomnessPower: 13.5,
-  count: 10000,
-  radius: 11,
+  randomnessPower: 20,
+  count: 20000,
+  radius: 20,
 };
 
 let material = null;
@@ -393,8 +393,8 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 camera.zoom = 5;
-camera.fov = 45;
 debugObject.zoom = 5;
+camera.fov = 45;
 // camera.position.set(-17.61, 12.87, -1.77);
 // camera.rotation.set(-2.38, -1.09, -2.44);
 camera.fov = debugObject.FOV;
@@ -410,6 +410,7 @@ setTimeout(() => {
     z: -1.77,
     duration: 2,
     delay: 1,
+
     ease: 'slow(0.7, 0.7, false)',
   });
   gsap.to(camera.rotation, {
@@ -424,6 +425,7 @@ setTimeout(() => {
     zoom: 1,
     duration: 2,
     delay: 1,
+    fov: 30,
     ease: 'slow(0.7, 0.7, false)',
     onUpdate: function () {
       camera.updateProjectionMatrix();
@@ -521,21 +523,20 @@ settings
     camera.setFocalLength(debugObject.focalLength);
     camera.updateProjectionMatrix();
   });
-// settings
-//   .addInput(camera, 'fov', {
-//     min: 0,
-//     max: 100,
-//     step: 0.001,
-//   })
-//   .on('change', () => {
-//     camera.updateProjectionMatrix();
-//   });
+settings
+  .addInput(camera, 'fov', {
+    min: 0,
+    max: 100,
+    step: 0.001,
+  })
+  .on('change', () => {
+    camera.updateProjectionMatrix();
+  });
 scene.add(camera);
 
-
 // Controls
-// const controls = new OrbitControls(camera, canvas);
-// controls.enableDamping = true;
+//const controls = new OrbitControls(camera, canvas);
+//controls.enableDamping = true;
 /**
  * Renderer
  */
@@ -569,8 +570,8 @@ raycaster.setFromCamera(cursor, camera);
 const sectionArray = [
   {
     name: 'contact',
-    position: new THREE.Vector3(0, 0, 0),
-    rotation: new THREE.Vector3(1, 1, 1),
+    position: new THREE.Vector3(7.5, 6.83, 7.06),
+    rotation: new THREE.Vector3(-1.93, -1.23, -1.95),
   },
   {
     name: 'projects',
@@ -596,7 +597,7 @@ navLinks.forEach((link) => {
       item.classList.remove('active');
     });
     link.classList.add('active');
-    target.classList.add('active-section');
+    //target.classList.add('active-section');
     let activeSection = null;
     navLinks.forEach((item) => {
       if (item.className.includes('active')) {
@@ -605,17 +606,25 @@ navLinks.forEach((link) => {
     });
     sectionArray.forEach((section) => {
       if (section.name === activeSection) {
-        console.log(section);
-        cameraToPosition(camera, section.position, section.rotation, testFunc);
+        cameraToPosition(
+          camera,
+          section.position,
+          section.rotation,
+          testFunc,
+          target
+        );
       }
     });
+    if (activeSection != null) {
+      backBtn.style.opacity = '1';
+    }
   });
 });
 
 const backBtn = document.querySelector('.back-btn');
 
-
 backBtn.addEventListener('click', () => {
+  backBtn.style.opacity = '0';
   navLinks.forEach((item) => {
     item.classList.remove('active');
   });
@@ -656,7 +665,7 @@ const tick = () => {
   // Update controls
   //controls.update();
   //console.log(camera.position);
-  // console.log(camera.rotation);
+  //console.log(camera.rotation);
 
   geometry.verticesNeedUpdate = true;
   geometry.computeBoundingSphere();
