@@ -221,7 +221,10 @@ function generateGalaxy() {
 const Galaxy = pane.addFolder({
   title: 'Galaxy',
 });
-
+Galaxy.hidden = true;
+if (location.hash === '#debug') {
+  Galaxy.hidden = false;
+}
 Galaxy.addInput(galaxyConfig, 'count', {
   min: 0,
   max: 50000,
@@ -229,31 +232,27 @@ Galaxy.addInput(galaxyConfig, 'count', {
 }).on('change', () => {
   generateGalaxy();
 });
-
 Galaxy.addInput(galaxyConfig, 'radius', {
   min: 0,
-  max: 20,
+  max: 30,
   step: 1,
 }).on('change', () => {
   generateGalaxy();
 });
-
 Galaxy.addInput(galaxyConfig, 'randomnessPower', {
   min: 0,
-  max: 20,
+  max: 30,
   step: 0.01,
 }).on('change', () => {
   generateGalaxy();
 });
-
 Galaxy.addInput(galaxyConfig, 'randomness', {
   min: 0,
-  max: 1,
+  max: 2,
   step: 0.001,
 }).on('change', () => {
   generateGalaxy();
 });
-
 Galaxy.addInput(galaxyConfig, 'spin', {
   min: 0,
   max: 3,
@@ -261,7 +260,6 @@ Galaxy.addInput(galaxyConfig, 'spin', {
 }).on('change', () => {
   generateGalaxy();
 });
-
 Galaxy.addInput(galaxyConfig, 'branches', {
   min: 0,
   max: 12,
@@ -324,11 +322,11 @@ gltfLoader.load('./models/arm&book.glb', (gltf) => {
     gltf.scene.children[0].children[0].children[0].children[0].children[0]
       .children[0];
   //part.rotation.z = Math.PI / 2;
-  pane.addInput(part.rotation, 'z', {
-    min: -Math.PI,
-    max: Math.PI,
-    step: 0.001,
-  });
+  // pane.addInput(part.rotation, 'z', {
+  //   min: -Math.PI,
+  //   max: Math.PI,
+  //   step: 0.001,
+  // });
   gltf.scene.traverse((child) => {
     child.material = armMaterial;
   });
@@ -436,7 +434,7 @@ setTimeout(() => {
 const settings = pane.addFolder({
   title: 'Settings',
 });
-
+settings.hidden = true;
 settings
   .addInput(debugObject, 'cameraRX', {
     min: -Math.PI,
@@ -532,6 +530,10 @@ settings
   .on('change', () => {
     camera.updateProjectionMatrix();
   });
+
+if (location.hash === '#debug') {
+  settings.hidden = false;
+}
 scene.add(camera);
 
 // Controls
