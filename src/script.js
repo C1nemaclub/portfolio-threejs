@@ -70,7 +70,7 @@ const loadingManager = new THREE.LoadingManager(
 
 const gltfLoader = new GLTFLoader(loadingManager);
 
-const textureLoader = new THREE.TextureLoader();
+const textureLoader = new THREE.TextureLoader(loadingManager);
 /**
  * Base
  */
@@ -408,7 +408,6 @@ setTimeout(() => {
     z: -1.77,
     duration: 2,
     delay: 1,
-
     ease: 'slow(0.7, 0.7, false)',
   });
   gsap.to(camera.rotation, {
@@ -613,20 +612,24 @@ navLinks.forEach((link) => {
           section.position,
           section.rotation,
           testFunc,
-          target
+          target,
+          backBtn,
+          navLinks
         );
       }
     });
     if (activeSection != null) {
-      backBtn.style.opacity = '1';
+      // backBtn.style.opacity = '1';
+      backBtn.classList.add('selected');
     }
   });
 });
 
 const backBtn = document.querySelector('.back-btn');
 
-backBtn.addEventListener('click', () => {
-  backBtn.style.opacity = '0';
+backBtn.addEventListener('click', (e) => {
+  // backBtn.style.opacity = '0';
+  backBtn.classList.remove('selected');
   navLinks.forEach((item) => {
     item.classList.remove('active');
   });

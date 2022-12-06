@@ -5,7 +5,9 @@ export default function cameraToPosition(
   position,
   rotation,
   callback,
-  target
+  target,
+  backBtn,
+  navLinks
 ) {
   gsap.to(camera.position, {
     x: position.x,
@@ -19,14 +21,32 @@ export default function cameraToPosition(
     z: rotation.z,
     duration: 1.75,
     onStart: () => {
-      target.classList.remove('active-section');
+      if (target && backBtn) {
+        target.classList.remove('active-section');
+        backBtn.classList.remove('selected');
+        backBtn.style.pointerEvents = 'none';
+      }
+      if (navLinks) {
+        navLinks.forEach((link) => {
+          link.style.pointerEvents = 'none';
+        });
+      }
     },
     // onUpdate: () => {
     //   camera.updateProjectionMatrix();
     // },
     onComplete: function () {
       if (callback) {
-        target.classList.add('active-section');
+        if (target && backBtn) {
+          target.classList.add('active-section');
+          backBtn.classList.add('selected');
+          backBtn.style.pointerEvents = '';
+        }
+        if (navLinks) {
+          navLinks.forEach((link) => {
+            link.style.pointerEvents = '';
+          });
+        }
         callback();
       }
     },

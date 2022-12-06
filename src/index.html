@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>34 - Intro and loading progress</title>
+    <script
+      src="https://kit.fontawesome.com/b109f342ec.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <canvas class="webgl"></canvas>
@@ -11,7 +15,18 @@
       <div class="loading-bar"></div>
     </section>
     <h3 class="progress">0%</h3>
-    <img src="../static/arrowleft.png" alt="back-button" class="back-btn" />
+    <!-- <img src="../static/arrowleft.png" alt="back-button" class="back-btn" /> -->
+    <i class="fa-solid fa-arrow-left back-btn"></i>
+    <div class="menu">
+      <i class="fa-solid fa-x menu-close icon"></i>
+      <i class="fa-solid fa-bars menu-open icon"></i>
+    </div>
+    <div class="welcome-message">
+      <h1>
+        Hi,<br />
+        I'm Santiago
+      </h1>
+    </div>
     <nav>
       <ul>
         <li class="projects navlink" data-target=".projects-section">Work</li>
@@ -59,6 +74,47 @@
     <section class="contact-section content-section">
       <div class="container">
         <h2>Contact</h2>
+        <h3>Let's Chat...</h3>
+        <div class="form-container">
+          <form action="">
+            <div class="input-group">
+              <input
+                type="text"
+                placeholder="Name"
+                name="name"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group">
+              <input
+                type="text"
+                placeholder="Email"
+                name="email"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group">
+              <input
+                type="text"
+                placeholder="Subject"
+                name="subject"
+                autocomplete="off"
+              />
+            </div>
+            <div class="input-group">
+              <textarea
+                name="message"
+                placeholder="Message"
+                id=""
+                cols="30"
+                rows="6"
+                required=""
+                spellcheck="false"
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
       </div>
     </section>
   </body>
