@@ -7,6 +7,9 @@ import { Pane } from 'tweakpane';
 import fragmentShader from '../src/shaders/fragmentShader.glsl';
 import vertexShader from '../src/shaders/vertexShader.glsl';
 import cameraToPosition from '../src/CameraController/CameraController.js';
+import WorkSection from '../src/WorkSection/WorkSection.js';
+WorkSection;
+
 //Debug
 const pane = new Pane();
 const debugObject = {
@@ -621,6 +624,10 @@ navLinks.forEach((link) => {
     if (activeSection != null) {
       // backBtn.style.opacity = '1';
       backBtn.classList.add('selected');
+
+      //Active first project to be shown, otherwise it would look empty until a project its clicked
+      const currentProject = document.querySelector('.project-one');
+      currentProject.classList.add('active-project');
     }
   });
 });
