@@ -318,7 +318,9 @@ gltfLoader.load('./models/bakedWalls.glb', (gltf) => {
 //robot Arm and Book
 let part;
 let part2;
-let ready = false;
+let robotReady = false;
+let mixer;
+const animsArm = [];
 gltfLoader.load('./models/arm&book.glb', (gltf) => {
   part = gltf.scene.children[0].children[0].children[0];
   part2 =
@@ -333,13 +335,34 @@ gltfLoader.load('./models/arm&book.glb', (gltf) => {
   gltf.scene.traverse((child) => {
     child.material = armMaterial;
   });
+  mixer = new THREE.AnimationMixer(gltf.scene);
+  gltf.animations.forEach((item) => {
+    if (item.name.includes('robot') || item.name === 'bookAction.001') {
+      animsArm.push(mixer.clipAction(item));
+    }
+  });
+
+  // animsArm.forEach((anim) => {
+  //   anim.play();
+  // });
+
   scene.add(gltf.scene);
-  ready = true;
+  robotReady = true;
+});
+
+// Play robot Animation
+window.addEventListener('dblclick', () => {
+  animsArm.forEach((anim) => {
+    anim.play();
+    anim.setLoop(THREE.LoopOnce, 1);
+    anim.clampWhenFinished = true;
+  });
 });
 
 //Screens
 let screenReady = false;
 let rightScreen = null;
+let texture;
 gltfLoader.load('./models/leftScreen.glb', (gltf) => {
   gltf.scene.children[0].material.side = THREE.DoubleSide;
 
@@ -347,6 +370,11 @@ gltfLoader.load('./models/leftScreen.glb', (gltf) => {
 });
 gltfLoader.load('./models/rightScreen.glb', (gltf) => {
   rightScreen = gltf.scene;
+
+  texture = rightScreen.children[0].material.map;
+  rightScreen.children[0].material.map.offset.y = 2.5;
+  rightScreen.children[0].material.map.rotation = Math.PI / 2;
+
   scene.add(rightScreen);
   screenReady = true;
 });
@@ -403,20 +431,26 @@ camera.setFocalLength(debugObject.focalLength);
 
 camera.position.set(4.25, 8.81, 6.7);
 camera.rotation.set(-1.94, -1.15, -1.97);
+// camera.zoom = 1;
+// camera.updateProjectionMatrix();
+
+//New home position
+// position = x: -14.692184188143605, y: 14.243732426468302, z: -3.7573421808714182
+// rotation = _x: -2.2896294498979985, _y: -1.0952561205838984, _z: -2.348235693618153
 
 setTimeout(() => {
   gsap.to(camera.position, {
-    x: -17.61,
-    y: 12.57,
-    z: -1.77,
+    x: -14.69,
+    y: 14.24,
+    z: -3.75,
     duration: 2,
     delay: 1,
     ease: 'slow(0.7, 0.7, false)',
   });
   gsap.to(camera.rotation, {
-    x: -2.38,
-    y: -1.09,
-    z: -2.44,
+    x: -2.289,
+    y: -1.095,
+    z: -2.34,
     duration: 2,
     delay: 1,
     ease: 'slow(0.7, 0.7, false)',
@@ -581,6 +615,8 @@ const sectionArray = [
     name: 'projects',
     position: new THREE.Vector3(-1.01, 7.67, -2.53),
     rotation: new THREE.Vector3(-1.74, -1.45, -1.74),
+    // position: new THREE.Vector3(-35.86, 19.21, 14),
+    // rotation: new THREE.Vector3(-0.677, -1.097, -0.62),
   },
   {
     name: 'about',
@@ -657,27 +693,42 @@ function testFunc() {}
  * Animate
  */
 
+let screenOffset = 0;
+let current;
 const clock = new THREE.Clock();
 
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
-
+  const delta = elapsedTime - current;
   //Update Arm
 
   raycaster.setFromCamera(cursor, camera);
   material.uniforms.uTime.value = elapsedTime;
-  if (ready) {
-    //part2.rotation.y = elapsedTime * 5;
-    const intersects = raycaster.intersectObjects([part, part2], false);
-    if (intersects.length > 0) {
-      console.log(intersects[0].object.name);
-    }
-  }
+  // if (robotReady) {
+  //   //part2.rotation.y = elapsedTime * 5;
+  //   const intersects = raycaster.intersectObjects([part, part2], false);
+  //   if (intersects.length > 0) {
+  //     console.log(intersects[0].object.name);
+  //   }
+  // }
 
   // Update controls
   //controls.update();
   //console.log(camera.position);
   //console.log(camera.rotation);
+  // console.log(camera.zoom);
+
+  if (mixer !== undefined && robotReady) {
+    mixer.update(elapsedTime * 0.001);
+  }
+
+  if (screenReady) {
+    //Do every 4 seconds
+    if (Math.floor(elapsedTime) % 4 === 0) {
+      rightScreen.children[0].material.map.offset.y = -(screenOffset * 0.01);
+      screenOffset = screenOffset + 1;
+    }
+  }
 
   geometry.verticesNeedUpdate = true;
   geometry.computeBoundingSphere();
