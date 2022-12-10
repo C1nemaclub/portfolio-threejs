@@ -42,6 +42,7 @@ const progress = document.querySelector('.progress');
 const loadingBarElement = document.querySelector('.loading-bar');
 const loadingScreen = document.querySelector('.loading-screen');
 const navBar = document.querySelector('nav');
+const welcomeMessage = document.querySelector('.welcome-message');
 
 const loadingManager = new THREE.LoadingManager(
   // Loaded
@@ -59,11 +60,12 @@ const loadingManager = new THREE.LoadingManager(
       progress.classList.add('ended');
       loadingScreen.classList.add('ended');
       loadingBarElement.style.transform = '';
+      welcomeMessage.classList.add('loaded');
       //playHitSound();
     }, 500);
     window.setTimeout(() => {
       navBar.classList.add('selected');
-    }, 4000);
+    }, 5000);
   },
 
   // Progress
@@ -120,14 +122,14 @@ scene.add(overlay);
 //Particles
 
 const galaxyConfig = {
-  outsideColor: '#ff5200',
-  insideColor: '#00ffd3',
+  outsideColor: '#f413e8',
+  insideColor: '#00b999',
   branches: 6,
   spin: 1,
   randomness: 1,
   randomnessPower: 20,
-  count: 20000,
-  radius: 20,
+  count: 30000,
+  radius: 15,
 };
 
 let material = null;
@@ -324,16 +326,19 @@ gltfLoader.load('./models/bakedWalls.glb', (gltf) => {
 //robot Arm and Book
 let part;
 let part2;
+let part3;
 let robotReady = false;
 let mixer;
 const animsArm = [];
 gltfLoader.load('./models/arm&book.glb', (gltf) => {
-  part = gltf.scene.children[0].children[0].children[0];
+  part = gltf.scene.children[0].children[0];
+  part3 = gltf.scene.children[0].children[0].children[0].children[0];
   part2 =
     gltf.scene.children[0].children[0].children[0].children[0].children[0]
       .children[0];
-  //part.rotation.z = Math.PI / 2;
-  // pane.addInput(part.rotation, 'z', {
+
+  //part3.rotation.z = 1.844;
+  // pane.addInput(part2.rotation, 'y', {
   //   min: -Math.PI,
   //   max: Math.PI,
   //   step: 0.001,
@@ -348,6 +353,7 @@ gltfLoader.load('./models/arm&book.glb', (gltf) => {
     }
     setTimeout(() => {
       playRobotAnim();
+      armFinalState();
     }, 2000);
   });
 
@@ -363,6 +369,43 @@ function playRobotAnim() {
     anim.clampWhenFinished = true;
   });
 }
+
+const armTimeline = gsap.timeline({ repeat: 1 });
+const armTimeline2 = gsap.timeline({ repeat: 1 });
+function armFinalState() {
+  gsap.to(part3.rotation, {
+    z: 1.844,
+    duration: 2,
+    delay: 3,
+    stagger: 0.1,
+    ease: 'bounce.out',
+  });
+  setTimeout(() => {
+    armTimeline.to(part2.rotation, {
+      y: Math.PI,
+      duration: 5,
+      delay: 0.5,
+      ease: 'bounce.out',
+    });
+    armTimeline.to(part2.rotation, {
+      y: -Math.PI,
+      duration: 5,
+      delay: 0.5,
+      ease: 'bounce.out',
+    });
+  }, 3000);
+  armTimeline2.to(part.rotation, {
+    y: Math.PI / 2,
+    duration: 6,
+    delay: 1.5,
+  });
+  armTimeline2.to(part.rotation, {
+    y: -Math.PI / 2,
+    duration: 6,
+    delay: 1.5,
+  });
+}
+
 window.addEventListener('dblclick', () => {
   animsArm.forEach((anim) => {
     anim.play();
@@ -451,34 +494,33 @@ if (sizes.width <= 600) {
   homePosition.rotation = { x: -2.289, y: -1.095, z: -2.34 };
 }
 
-setTimeout(() => {
-  gsap.to(camera.position, {
-    x: homePosition.position.x,
-    y: homePosition.position.y,
-    z: homePosition.position.z,
-    duration: 2,
-    delay: 1,
-    ease: 'slow(0.7, 0.7, false)',
-  });
-  gsap.to(camera.rotation, {
-    x: homePosition.rotation.x,
-    y: homePosition.rotation.y,
-    z: homePosition.rotation.z,
-    duration: 2,
-    delay: 1,
-    ease: 'slow(0.7, 0.7, false)',
-  });
-  gsap.to(camera, {
-    zoom: 1,
-    duration: 2,
-    delay: 1,
-    fov: 30,
-    ease: 'slow(0.7, 0.7, false)',
-    onUpdate: function () {
-      camera.updateProjectionMatrix();
-    },
-  });
-}, 3000);
+const cameraEase = 'circ.inOut';
+gsap.to(camera.position, {
+  x: homePosition.position.x,
+  y: homePosition.position.y,
+  z: homePosition.position.z,
+  duration: 4,
+  delay: 3,
+  ease: cameraEase,
+});
+gsap.to(camera.rotation, {
+  x: homePosition.rotation.x,
+  y: homePosition.rotation.y,
+  z: homePosition.rotation.z,
+  duration: 4,
+  delay: 3,
+  ease: cameraEase,
+});
+gsap.to(camera, {
+  zoom: 1,
+  duration: 4,
+  delay: 3,
+  fov: 30,
+  ease: cameraEase,
+  onUpdate: function () {
+    camera.updateProjectionMatrix();
+  },
+});
 
 // settings.hidden = true;
 
@@ -687,8 +729,10 @@ navLinks.forEach((link) => {
         navBar.classList.add('active');
       }
       //Active first project to be shown, otherwise it would look empty until a project its clicked
-      const currentProject = document.querySelector('.project-one');
-      currentProject.classList.add('active-project');
+      if (activeSection === 'projects') {
+        const currentProject = document.querySelector('.project-one');
+        currentProject.classList.add('active-project');
+      }
     }
   });
 });
@@ -731,13 +775,13 @@ const tick = () => {
 
   raycaster.setFromCamera(cursor, camera);
   material.uniforms.uTime.value = elapsedTime;
-  // if (robotReady) {
-  //   //part2.rotation.y = elapsedTime * 5;
-  //   const intersects = raycaster.intersectObjects([part, part2], false);
-  //   if (intersects.length > 0) {
-  //     console.log(intersects[0].object.name);
-  //   }
-  // }
+  if (robotReady) {
+    //part2.rotation.y = elapsedTime * 5;
+    const intersects = raycaster.intersectObjects([part, part2, part3], false);
+    if (intersects.length > 0) {
+      console.log(intersects[0].object.name);
+    }
+  }
 
   // Update controls
   //controls.update();
@@ -750,8 +794,8 @@ const tick = () => {
   }
 
   if (screenReady) {
-    //Do every 4 seconds
-    if (Math.floor(elapsedTime) % 4 === 0) {
+    //Do every 3 seconds
+    if (Math.floor(elapsedTime) % 3 === 0) {
       rightScreen.children[0].material.map.offset.y = -(screenOffset * 0.01);
       screenOffset = screenOffset + 1;
     }

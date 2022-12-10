@@ -10,12 +10,12 @@ void main()
 
     // gl_FragColor = vec4(vec3(strength), 1.0);
 
-    float strenght = distance(gl_PointCoord, vec2(0.5));
+    float strenght = distance(gl_PointCoord, vec2(0.9));
     strenght *= 1.0;
     strenght = 4.0 - strenght;
 
     //Mix color
-    vec3 color = mix(vec3(0.0), vColor, strenght);
+    vec3 color = mix(vec3(0.5), vColor, strenght);
 
     gl_FragColor = vec4(color,1.0);
 

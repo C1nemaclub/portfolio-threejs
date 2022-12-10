@@ -14,7 +14,7 @@ void main(){
     //Rotate
     float angle = atan(modelPosition.x, modelPosition.z);
     float distanceToCenter = length(modelPosition.xz);
-    float angleOffset = (1.0 / distanceToCenter) * uTime * 0.1;
+    float angleOffset = (1.0 / distanceToCenter) * uTime * 0.4;
     angle += angleOffset;
     modelPosition.x = (cos(angle) * distanceToCenter) + 26.0;
     modelPosition.z = (sin(angle) * distanceToCenter)+ 10.0;

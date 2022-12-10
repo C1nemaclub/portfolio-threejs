@@ -9,8 +9,10 @@ html {
 
 :root {
   --primary-text-color: #34bfff;
+  --primary-text-color: #00abb3;
   --secondary-text-color: #a5e3ff;
   --accent-color: #d8601d;
+  --accent-color: #d26c33;
   --normal-text-color: #fff;
   --normal-paragraph-font-size: 1rem;
 }
@@ -51,10 +53,6 @@ body {
   transform-origin: 100% 0;
   transition: transform 1.5s ease-in-out;
 }
-.progress.ended {
-  transition: 1.5s ease-in-out;
-  opacity: 0;
-}
 
 .progress {
   position: absolute;
@@ -62,27 +60,28 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   color: var(--primary-text-color);
-  transition: 0.5s ease-in-out;
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   font-family: 'Indie Flower', cursive;
   pointer-events: none;
 }
-.loading-screen.ended {
-  transition: 1.5s ease-in-out;
+.progress.ended {
   opacity: 0;
-  z-index: -100;
 }
-
 .loading-screen {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  transition: 0.5s ease-in-out;
   width: 100%;
   min-height: 100vh;
   height: 100%;
   background: beige;
   opacity: 1;
+}
+.loading-screen.ended {
+  opacity: 0;
+  z-index: -100;
 }
 
 nav {
@@ -97,6 +96,7 @@ nav {
   p {
     font-family: 'Poppins', sans-serif;
     color: var(--normal-text-color);
+    font-weight: 600;
   }
   ul {
     list-style: none;
@@ -174,11 +174,10 @@ li::after {
   top: 0%;
   left: 0%;
   opacity: 0;
-  /* height: 100%;  <= Background not covering full screen fix   */
+  //height: 100%; //<= Background not covering full screen fix
   width: 100%;
   min-height: 100vh;
   transition: opacity 0.5s ease-in-out;
-  // transition: opacity 0.1s ease-in-out;
   z-index: -100;
   padding: 3em 5em;
   font-family: 'Poppins', sans-serif;
@@ -471,12 +470,30 @@ li::after {
 .welcome-message {
   position: absolute;
   top: 25%;
-  left: 70%;
+  left: 55%;
   transform: translate(-50%, -50%);
   z-index: 1000;
   font-family: 'Poppins', sans-serif;
   color: var(--normal-text-color);
-  font-size: 2rem;
+  opacity: 0;
+  transition: 1s ease-in-out 0.25s;
+  width: 80%;
+  h1 {
+    font-weight: 600;
+    font-size: 6rem;
+    span {
+      color: var(--primary-text-color);
+    }
+  }
+  p {
+    font-size: 3rem;
+    font-weight: 400;
+    color: var(--accent-color);
+  }
+}
+
+.welcome-message.loaded {
+  opacity: 1;
   animation: vanish 1s ease-in-out 2s forwards;
 }
 
@@ -489,6 +506,23 @@ li::after {
   }
 }
 
+@keyframes colorChange {
+  0% {
+    color: var(--primary-text-color);
+  }
+  100% {
+    color: red;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .welcome-message {
+    h1 {
+      font-size: 4rem;
+    }
+  }
+}
+
 @media only screen and (max-width: 900px) {
   html {
     font-size: 85%;
@@ -498,6 +532,11 @@ li::after {
 @media only screen and (max-width: 768px) {
   html {
     font-size: 80%;
+  }
+  .welcome-message {
+    h1 {
+      font-size: 3.5rem;
+    }
   }
   nav {
     left: 25%;
@@ -513,7 +552,7 @@ li::after {
 
 @media only screen and (max-width: 500px) {
   html {
-    font-size: 70%;
+    font-size: 75%;
   }
   nav {
     left: 35%;

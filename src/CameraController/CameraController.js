@@ -14,12 +14,14 @@ export default function cameraToPosition(
     y: position.y,
     z: position.z,
     duration: 1.75,
+    ease: 'slow(0.7, 0.7, false)',
   });
   gsap.to(camera.rotation, {
     x: rotation.x,
     y: rotation.y,
     z: rotation.z,
     duration: 1.75,
+    ease: 'slow(0.7, 0.7, false)',
     onStart: () => {
       if (target && backBtn) {
         target.classList.remove('active-section');
