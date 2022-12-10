@@ -12,6 +12,7 @@ html {
   --secondary-text-color: #a5e3ff;
   --accent-color: #d8601d;
   --normal-text-color: #fff;
+  --normal-paragraph-font-size: 1rem;
 }
 
 * {
@@ -92,12 +93,17 @@ nav {
   top: 25%;
   transform: translate(-50%, -50%);
   z-index: 101;
+  transition: 0.25s ease-in-out;
+  p {
+    font-family: 'Poppins', sans-serif;
+    color: var(--normal-text-color);
+  }
   ul {
     list-style: none;
     li {
       font-family: 'Poppins', sans-serif;
       font-size: 4rem;
-      color: #34bfff;
+      color: var(--primary-text-color);
       cursor: pointer;
       font-weight: 600;
       transition: 0.15s ease-in-out;
@@ -112,6 +118,10 @@ nav {
 
 nav.selected {
   opacity: 1;
+}
+
+nav.active {
+  display: none;
 }
 
 div.tp-lblv_l {
@@ -141,23 +151,6 @@ div.tp-lblv_l {
 .back-btn.selected {
   opacity: 1;
 }
-
-// .projects-section {
-//   position: absolute;
-//   top: 0%;
-//   left: 0%;
-//   opacity: 0;
-//   height: 100%;
-//   width: 100%;
-//   transition: opacity 2s ease-in-out 1s;
-// }
-
-// .projects-section h1 {
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-// }
 
 li.active::after {
   transform: translate(-50%, -50%) scale(1);
@@ -203,8 +196,8 @@ li::after {
   margin-top: 1.25rem;
   color: var(--normal-text-color);
   font-family: 'Poppins', sans-serif;
-  font-size: 1.125rem;
   font-weight: normal;
+  font-size: var(--normal-paragraph-font-size);
 }
 
 .container {
@@ -325,17 +318,17 @@ li::after {
           border: 0;
           height: 100%;
           outline: none;
-          font-size: 1.125rem;
+          font-size: var(--normal-paragraph-font-size);
           padding: 0.5em 1em;
           font-family: 'Poppins', sans-serif;
           width: 100%;
-          color: var(--secondary-text-color);
+          color: var(--normal-text-color);
           background: #434343;
           font-weight: 200;
         }
         input::placeholder,
         textarea::placeholder {
-          color: var(--secondary-text-color);
+          color: var(--normal-text-color);
         }
       }
       button {
@@ -347,7 +340,7 @@ li::after {
         background: var(--accent-color);
         color: var(--normal-text-color);
         cursor: pointer;
-        font-weight: 200;
+        font-weight: 300;
       }
     }
   }
@@ -371,7 +364,9 @@ li::after {
   p {
     color: #ccc;
     min-height: 76px;
-    min-height: 135px;
+    min-height: 105px;
+    font-weight: normal;
+    font-size: var(--normal-paragraph-font-size);
   }
 
   .project-footer {
@@ -498,19 +493,30 @@ li::after {
   html {
     font-size: 85%;
   }
-  .icon {
-    display: block;
-  }
 }
 
 @media only screen and (max-width: 768px) {
+  html {
+    font-size: 80%;
+  }
   nav {
-    display: none;
+    left: 25%;
+    top: 25%;
   }
   .content-section {
     padding: 2em;
   }
   .back-btn {
     margin-left: 2em;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  html {
+    font-size: 70%;
+  }
+  nav {
+    left: 35%;
+    top: 25%;
   }
 }

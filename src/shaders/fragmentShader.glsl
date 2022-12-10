@@ -12,7 +12,7 @@ void main()
 
     float strenght = distance(gl_PointCoord, vec2(0.5));
     strenght *= 1.0;
-    strenght = 1.0 - strenght;
+    strenght = 4.0 - strenght;
 
     //Mix color
     vec3 color = mix(vec3(0.0), vColor, strenght);

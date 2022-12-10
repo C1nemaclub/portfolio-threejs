@@ -11,6 +11,7 @@ html {
   --secondary-text-color: #a5e3ff;
   --accent-color: #d8601d;
   --normal-text-color: #fff;
+  --normal-paragraph-font-size: 1rem;
 }
 
 * {
@@ -111,6 +112,13 @@ nav {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   z-index: 101;
+  -webkit-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+}
+
+nav p {
+  font-family: 'Poppins', sans-serif;
+  color: var(--normal-text-color);
 }
 
 nav ul {
@@ -120,7 +128,7 @@ nav ul {
 nav ul li {
   font-family: 'Poppins', sans-serif;
   font-size: 4rem;
-  color: #34bfff;
+  color: var(--primary-text-color);
   cursor: pointer;
   font-weight: 600;
   -webkit-transition: 0.15s ease-in-out;
@@ -135,6 +143,10 @@ nav ul li:hover {
 
 nav.selected {
   opacity: 1;
+}
+
+nav.active {
+  display: none;
 }
 
 div.tp-lblv_l {
@@ -216,8 +228,8 @@ li::after {
   margin-top: 1.25rem;
   color: var(--normal-text-color);
   font-family: 'Poppins', sans-serif;
-  font-size: 1.125rem;
   font-weight: normal;
+  font-size: var(--normal-paragraph-font-size);
 }
 
 .container {
@@ -364,33 +376,33 @@ li::after {
   border: 0;
   height: 100%;
   outline: none;
-  font-size: 1.125rem;
+  font-size: var(--normal-paragraph-font-size);
   padding: 0.5em 1em;
   font-family: 'Poppins', sans-serif;
   width: 100%;
-  color: var(--secondary-text-color);
+  color: var(--normal-text-color);
   background: #434343;
   font-weight: 200;
 }
 
 .contact-section .container .form-container .input-group input::-webkit-input-placeholder,
 .contact-section .container .form-container .input-group textarea::-webkit-input-placeholder {
-  color: var(--secondary-text-color);
+  color: var(--normal-text-color);
 }
 
 .contact-section .container .form-container .input-group input:-ms-input-placeholder,
 .contact-section .container .form-container .input-group textarea:-ms-input-placeholder {
-  color: var(--secondary-text-color);
+  color: var(--normal-text-color);
 }
 
 .contact-section .container .form-container .input-group input::-ms-input-placeholder,
 .contact-section .container .form-container .input-group textarea::-ms-input-placeholder {
-  color: var(--secondary-text-color);
+  color: var(--normal-text-color);
 }
 
 .contact-section .container .form-container .input-group input::placeholder,
 .contact-section .container .form-container .input-group textarea::placeholder {
-  color: var(--secondary-text-color);
+  color: var(--normal-text-color);
 }
 
 .contact-section .container .form-container button {
@@ -403,7 +415,7 @@ li::after {
   background: var(--accent-color);
   color: var(--normal-text-color);
   cursor: pointer;
-  font-weight: 200;
+  font-weight: 300;
 }
 
 .project {
@@ -426,7 +438,9 @@ li::after {
 .project p {
   color: #ccc;
   min-height: 76px;
-  min-height: 135px;
+  min-height: 105px;
+  font-weight: normal;
+  font-size: var(--normal-paragraph-font-size);
 }
 
 .project .project-footer {
@@ -586,20 +600,31 @@ li::after {
   html {
     font-size: 85%;
   }
-  .icon {
-    display: block;
-  }
 }
 
 @media only screen and (max-width: 768px) {
+  html {
+    font-size: 80%;
+  }
   nav {
-    display: none;
+    left: 25%;
+    top: 25%;
   }
   .content-section {
     padding: 2em;
   }
   .back-btn {
     margin-left: 2em;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  html {
+    font-size: 70%;
+  }
+  nav {
+    left: 35%;
+    top: 25%;
   }
 }
 /*# sourceMappingURL=style.css.map */

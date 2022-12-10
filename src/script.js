@@ -8,10 +8,14 @@ import fragmentShader from '../src/shaders/fragmentShader.glsl';
 import vertexShader from '../src/shaders/vertexShader.glsl';
 import cameraToPosition from '../src/CameraController/CameraController.js';
 import WorkSection from '../src/WorkSection/WorkSection.js';
+import { CubeCamera } from 'three';
 WorkSection;
 
 //Debug
-const pane = new Pane();
+let pane;
+if (location.hash === '#debug') {
+  pane = new Pane();
+}
 const debugObject = {
   cameraRY: 0,
   cameraRX: 0,
@@ -29,6 +33,7 @@ const hitSound = new Audio('/music/ost.mp3');
 const playHitSound = () => {
   hitSound.play();
 };
+// playHitSound();
 
 /**
  * Loaders
@@ -221,62 +226,63 @@ function generateGalaxy() {
   scene.add(points);
 }
 
-const Galaxy = pane.addFolder({
-  title: 'Galaxy',
-});
-Galaxy.hidden = true;
+// Galaxy.hidden = true;
 if (location.hash === '#debug') {
-  Galaxy.hidden = false;
-}
-Galaxy.addInput(galaxyConfig, 'count', {
-  min: 0,
-  max: 50000,
-  step: 1,
-}).on('change', () => {
-  generateGalaxy();
-});
-Galaxy.addInput(galaxyConfig, 'radius', {
-  min: 0,
-  max: 30,
-  step: 1,
-}).on('change', () => {
-  generateGalaxy();
-});
-Galaxy.addInput(galaxyConfig, 'randomnessPower', {
-  min: 0,
-  max: 30,
-  step: 0.01,
-}).on('change', () => {
-  generateGalaxy();
-});
-Galaxy.addInput(galaxyConfig, 'randomness', {
-  min: 0,
-  max: 2,
-  step: 0.001,
-}).on('change', () => {
-  generateGalaxy();
-});
-Galaxy.addInput(galaxyConfig, 'spin', {
-  min: 0,
-  max: 3,
-  step: 0.001,
-}).on('change', () => {
-  generateGalaxy();
-});
-Galaxy.addInput(galaxyConfig, 'branches', {
-  min: 0,
-  max: 12,
-  step: 1,
-}).on('change', () => {
-  generateGalaxy();
-});
+  // Galaxy.hidden = false;
+  const Galaxy = pane.addFolder({
+    title: 'Galaxy',
+  });
+  Galaxy.addInput(galaxyConfig, 'count', {
+    min: 0,
+    max: 50000,
+    step: 1,
+  }).on('change', () => {
+    generateGalaxy();
+  });
+  Galaxy.addInput(galaxyConfig, 'radius', {
+    min: 0,
+    max: 30,
+    step: 1,
+  }).on('change', () => {
+    generateGalaxy();
+  });
+  Galaxy.addInput(galaxyConfig, 'randomnessPower', {
+    min: 0,
+    max: 30,
+    step: 0.01,
+  }).on('change', () => {
+    generateGalaxy();
+  });
+  Galaxy.addInput(galaxyConfig, 'randomness', {
+    min: 0,
+    max: 2,
+    step: 0.001,
+  }).on('change', () => {
+    generateGalaxy();
+  });
+  Galaxy.addInput(galaxyConfig, 'spin', {
+    min: 0,
+    max: 3,
+    step: 0.001,
+  }).on('change', () => {
+    generateGalaxy();
+  });
+  Galaxy.addInput(galaxyConfig, 'branches', {
+    min: 0,
+    max: 12,
+    step: 1,
+  }).on('change', () => {
+    generateGalaxy();
+  });
 
-Galaxy.addInput(galaxyConfig, 'insideColor').on('change', () => {
-  generateGalaxy();
-});
-Galaxy.addInput(galaxyConfig, 'outsideColor').on('change', () => {
-  generateGalaxy();
-});
+  Galaxy.addInput(galaxyConfig, 'insideColor').on('change', () => {
+    generateGalaxy();
+  });
+  Galaxy.addInput(galaxyConfig, 'outsideColor').on('change', () => {
+    generateGalaxy();
+  });
+}
+
 /**
  * Textures
  */
@@ -340,17 +346,23 @@ gltfLoader.load('./models/arm&book.glb', (gltf) => {
     if (item.name.includes('robot') || item.name === 'bookAction.001') {
       animsArm.push(mixer.clipAction(item));
     }
+    setTimeout(() => {
+      playRobotAnim();
+    }, 2000);
   });
-
-  // animsArm.forEach((anim) => {
-  //   anim.play();
-  // });
 
   scene.add(gltf.scene);
   robotReady = true;
 });
 
 // Play robot Animation
+function playRobotAnim() {
+  animsArm.forEach((anim) => {
+    anim.play();
+    anim.setLoop(THREE.LoopOnce, 1);
+    anim.clampWhenFinished = true;
+  });
+}
 window.addEventListener('dblclick', () => {
   animsArm.forEach((anim) => {
     anim.play();
@@ -421,36 +433,37 @@ const camera = new THREE.PerspectiveCamera(
   0.01,
   1000
 );
-camera.zoom = 5;
+camera.zoom = 2;
 debugObject.zoom = 5;
 camera.fov = 45;
-// camera.position.set(-17.61, 12.87, -1.77);
-// camera.rotation.set(-2.38, -1.09, -2.44);
+
 camera.fov = debugObject.FOV;
 camera.setFocalLength(debugObject.focalLength);
 
-camera.position.set(4.25, 8.81, 6.7);
-camera.rotation.set(-1.94, -1.15, -1.97);
-// camera.zoom = 1;
-// camera.updateProjectionMatrix();
-
-//New home position
-// position = x: -14.692184188143605, y: 14.243732426468302, z: -3.7573421808714182
-// rotation = _x: -2.2896294498979985, _y: -1.0952561205838984, _z: -2.348235693618153
+let homePosition = {};
+camera.position.set(7.5, 6.83, 7.06);
+camera.rotation.set(-1.93, -1.23, -1.95);
+if (sizes.width <= 600) {
+  homePosition.position = { x: -11.44, y: 13.53, z: 5.82 };
+  homePosition.rotation = { x: -0.72, y: -1.04, z: -0.64 };
+} else {
+  homePosition.position = { x: -14.69, y: 14.24, z: -3.75 };
+  homePosition.rotation = { x: -2.289, y: -1.095, z: -2.34 };
+}
 
 setTimeout(() => {
   gsap.to(camera.position, {
-    x: -14.69,
-    y: 14.24,
-    z: -3.75,
+    x: homePosition.position.x,
+    y: homePosition.position.y,
+    z: homePosition.position.z,
     duration: 2,
     delay: 1,
     ease: 'slow(0.7, 0.7, false)',
   });
   gsap.to(camera.rotation, {
-    x: -2.289,
-    y: -1.095,
-    z: -2.34,
+    x: homePosition.rotation.x,
+    y: homePosition.rotation.y,
+    z: homePosition.rotation.z,
     duration: 2,
     delay: 1,
     ease: 'slow(0.7, 0.7, false)',
@@ -467,20 +480,7 @@ setTimeout(() => {
   });
 }, 3000);
 
-const settings = pane.addFolder({
-  title: 'Settings',
-});
-settings.hidden = true;
-settings
-  .addInput(debugObject, 'cameraRX', {
-    min: -Math.PI,
-    max: Math.PI,
-    step: 0.001,
-  })
-  .on('change', () => {
-    camera.rotation.x = debugObject.cameraRX;
-    camera.updateProjectionMatrix();
-  });
+// settings.hidden = true;
 
 // settings
 //   .addInput(debugObject, 'zoom', {
@@ -493,82 +493,93 @@ settings
 //     camera.updateProjectionMatrix();
 //   });
 
-settings
-  .addInput(debugObject, 'cameraRY', {
-    min: -Math.PI,
-    max: Math.PI,
-    step: 0.001,
-  })
-  .on('change', () => {
-    camera.rotation.y = debugObject.cameraRY;
-    camera.updateProjectionMatrix();
-  });
-settings
-  .addInput(debugObject, 'cameraRZ', {
-    min: -Math.PI,
-    max: Math.PI,
-    step: 0.001,
-  })
-  .on('change', () => {
-    camera.rotation.z = debugObject.cameraRZ;
-    camera.updateProjectionMatrix();
-  });
-
-//Position
-settings
-  .addInput(debugObject, 'cameraPX', {
-    min: -20,
-    max: 20,
-    step: 0.001,
-  })
-  .on('change', () => {
-    camera.position.x = debugObject.cameraPX;
-    camera.updateProjectionMatrix();
-  });
-
-settings
-  .addInput(debugObject, 'cameraPY', {
-    min: -20,
-    max: 20,
-    step: 0.001,
-  })
-  .on('change', () => {
-    camera.updateProjectionMatrix();
-    camera.position.y = debugObject.cameraPY;
-  });
-settings
-  .addInput(debugObject, 'cameraPZ', {
-    min: -20,
-    max: 20,
-    step: 0.001,
-  })
-  .on('change', () => {
-    camera.updateProjectionMatrix();
-    camera.position.z = debugObject.cameraPZ;
-  });
-
-settings
-  .addInput(debugObject, 'focalLength', {
-    min: 0,
-    max: 50,
-    step: 0.001,
-  })
-  .on('change', () => {
-    camera.setFocalLength(debugObject.focalLength);
-    camera.updateProjectionMatrix();
-  });
-settings
-  .addInput(camera, 'fov', {
-    min: 0,
-    max: 100,
-    step: 0.001,
-  })
-  .on('change', () => {
-    camera.updateProjectionMatrix();
-  });
-
 if (location.hash === '#debug') {
-  settings.hidden = false;
+  // settings.hidden = false;
+  const settings = pane.addFolder({
+    title: 'Settings',
+  });
+  //Position
+  settings
+    .addInput(debugObject, 'cameraRX', {
+      min: -Math.PI,
+      max: Math.PI,
+      step: 0.001,
+    })
+    .on('change', () => {
+      camera.rotation.x = debugObject.cameraRX;
+      camera.updateProjectionMatrix();
+    });
+  settings
+    .addInput(debugObject, 'cameraRY', {
+      min: -Math.PI,
+      max: Math.PI,
+      step: 0.001,
+    })
+    .on('change', () => {
+      camera.rotation.y = debugObject.cameraRY;
+      camera.updateProjectionMatrix();
+    });
+  settings
+    .addInput(debugObject, 'cameraRZ', {
+      min: -Math.PI,
+      max: Math.PI,
+      step: 0.001,
+    })
+    .on('change', () => {
+      camera.rotation.z = debugObject.cameraRZ;
+      camera.updateProjectionMatrix();
+    });
+  settings
+    .addInput(debugObject, 'cameraPX', {
+      min: -20,
+      max: 20,
+      step: 0.001,
+    })
+    .on('change', () => {
+      camera.position.x = debugObject.cameraPX;
+      camera.updateProjectionMatrix();
+    });
+
+  settings
+    .addInput(debugObject, 'cameraPY', {
+      min: -20,
+      max: 20,
+      step: 0.001,
+    })
+    .on('change', () => {
+      camera.updateProjectionMatrix();
+      camera.position.y = debugObject.cameraPY;
+    });
+  settings
+    .addInput(debugObject, 'cameraPZ', {
+      min: -20,
+      max: 20,
+      step: 0.001,
+    })
+    .on('change', () => {
+      camera.updateProjectionMatrix();
+      camera.position.z = debugObject.cameraPZ;
+    });
+
+  settings
+    .addInput(debugObject, 'focalLength', {
+      min: 0,
+      max: 50,
+      step: 0.001,
+    })
+    .on('change', () => {
+      camera.setFocalLength(debugObject.focalLength);
+      camera.updateProjectionMatrix();
+    });
+  settings
+    .addInput(camera, 'fov', {
+      min: 0,
+      max: 100,
+      step: 0.001,
+    })
+    .on('change', () => {
+      camera.updateProjectionMatrix();
+    });
 }
 scene.add(camera);
 
@@ -587,12 +598,6 @@ renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor(debugObject.clearColor);
-//renderer.setClearColor(0x000000, 0);
-// renderer.setClearColor(0x000000, 1);
-
-settings.addInput(debugObject, 'clearColor').on('change', () => {
-  renderer.setClearColor(debugObject.clearColor);
-});
 
 generateGalaxy();
 
@@ -605,27 +610,46 @@ const raycaster = new THREE.Raycaster();
 raycaster.setFromCamera(cursor, camera);
 
 //section Array
-const sectionArray = [
-  {
-    name: 'contact',
-    position: new THREE.Vector3(7.5, 6.83, 7.06),
-    rotation: new THREE.Vector3(-1.93, -1.23, -1.95),
-  },
-  {
-    name: 'projects',
-    position: new THREE.Vector3(-1.01, 7.67, -2.53),
-    rotation: new THREE.Vector3(-1.74, -1.45, -1.74),
-    // position: new THREE.Vector3(-35.86, 19.21, 14),
-    // rotation: new THREE.Vector3(-0.677, -1.097, -0.62),
-  },
-  {
-    name: 'about',
-    position: new THREE.Vector3(-1.739, 10, 3.47),
-    rotation: new THREE.Vector3(-2.322, -1.571, -2.322),
-  },
-];
-const contentSections = document.querySelectorAll('.content-section');
+let sectionArray = [];
+if (sizes.width <= 600) {
+  sectionArray = [
+    {
+      name: 'contact',
+      position: new THREE.Vector3(8.201, 6.69, 7.48),
+      rotation: new THREE.Vector3(-2.89, -0.9, -2.94),
+    },
+    {
+      name: 'projects',
+      position: new THREE.Vector3(-1.11, 9.9, -9.65),
+      rotation: new THREE.Vector3(-2.73, -0.66, -2.88),
+    },
+    {
+      name: 'about',
+      position: new THREE.Vector3(-1.06, 11.74, -5.028),
+      rotation: new THREE.Vector3(-2.89, -0.9, -2.94),
+    },
+  ];
+} else {
+  sectionArray = [
+    {
+      name: 'contact',
+      position: new THREE.Vector3(7.5, 6.83, 7.06),
+      rotation: new THREE.Vector3(-1.93, -1.23, -1.95),
+    },
+    {
+      name: 'projects',
+      position: new THREE.Vector3(-3.9486, 9.04, 1.78),
+      rotation: new THREE.Vector3(-0.59, -1.1, -0.53),
+    },
+    {
+      name: 'about',
+      position: new THREE.Vector3(-1.739, 10, 3.47),
+      rotation: new THREE.Vector3(-2.322, -1.571, -2.322),
+    },
+  ];
+}
 
+const contentSections = document.querySelectorAll('.content-section');
 const navLinks = document.querySelectorAll('.navlink');
 navLinks.forEach((link) => {
   link.addEventListener('click', (e) => {
@@ -658,9 +682,10 @@ navLinks.forEach((link) => {
       }
     });
     if (activeSection != null) {
-      // backBtn.style.opacity = '1';
       backBtn.classList.add('selected');
-
+      if (sizes.width <= 768) {
+        navBar.classList.add('active');
+      }
       //Active first project to be shown, otherwise it would look empty until a project its clicked
       const currentProject = document.querySelector('.project-one');
       currentProject.classList.add('active-project');
@@ -671,8 +696,10 @@ navLinks.forEach((link) => {
 const backBtn = document.querySelector('.back-btn');
 
 backBtn.addEventListener('click', (e) => {
-  // backBtn.style.opacity = '0';
   backBtn.classList.remove('selected');
+  if (sizes.width <= 768) {
+    navBar.classList.remove('active');
+  }
   navLinks.forEach((item) => {
     item.classList.remove('active');
   });
@@ -681,8 +708,8 @@ backBtn.addEventListener('click', (e) => {
   });
   cameraToPosition(
     camera,
-    new THREE.Vector3(-17.61, 12.87, -1.77),
-    new THREE.Vector3(-2.38, -1.09, -2.44),
+    new THREE.Vector3(-13.54, 10.59, -3.23),
+    new THREE.Vector3(-2.48, -1.24, -2.51),
     testFunc
   );
 });
@@ -694,7 +721,7 @@ function testFunc() {}
  */
 
 let screenOffset = 0;
-let current;
+let current = 0;
 const clock = new THREE.Clock();
 
 const tick = () => {
@@ -719,7 +746,7 @@ const tick = () => {
   // console.log(camera.zoom);
 
   if (mixer !== undefined && robotReady) {
-    mixer.update(elapsedTime * 0.001);
+    mixer.update(delta * 0.005);
   }
 
   if (screenReady) {
