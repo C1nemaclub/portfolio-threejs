@@ -34,9 +34,6 @@ export default function cameraToPosition(
         });
       }
     },
-    // onUpdate: () => {
-    //   camera.updateProjectionMatrix();
-    // },
     onComplete: function () {
       if (callback) {
         if (target && backBtn) {

@@ -441,38 +441,75 @@ li::after {
   font-size: var(--normal-paragraph-font-size);
 }
 
-.project .project-footer {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  gap: 6px;
+.project .tech-tags span {
+  border-radius: 4px;
+  background: none;
+  padding: 0.2em 0.6em;
+  font-size: 0.9rem;
 }
 
-.project .project-footer .btn {
+.project .tech-tags .next {
+  color: #34bfff;
+  border: 1px solid #34bfff;
+}
+
+.project .tech-tags .js {
+  color: #ffb800;
+  border: 1px solid #ffb800;
+}
+
+.project .tech-tags .html,
+.project .tech-tags .css {
+  color: #98c1d9;
+  border: 1px solid #98c1d9;
+}
+
+.project .tech-tags .react {
+  color: #34bfff;
+  border: 1px solid #34bfff;
+}
+
+.project .tech-tags .fullstack {
+  color: #2bbb4b;
+  border: 1px solid #2bbb4b;
+}
+
+.project .buttons-row .btn {
   padding: 0.4em 0.6em;
   border-radius: 3px;
-  border: 1px solid var(--accent-color);
+  border: 1px solid #ffb800;
   margin-top: 6px;
   cursor: pointer;
   background: none;
+  -webkit-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
 }
 
-.project .project-footer .btn a {
+.project .buttons-row .btn a {
   text-decoration: none;
-  color: var(--accent-color);
+  color: #ffb800;
   font-size: 1.1rem;
+  font-weight: normal;
+  font-family: 'Poppins';
+  -webkit-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
 }
 
-.project .project-footer .tech-icon {
-  color: #fff;
-  font-size: 2.2rem;
-  max-height: 34px;
+.project .buttons-row .btn:hover {
+  background: black;
+}
+
+.project .buttons-row .code-btn {
+  border: 1px solid var(--secondary-text-color);
+}
+
+.project .buttons-row .code-btn a {
+  font-weight: bold;
+  color: var(--secondary-text-color);
+}
+
+.project .buttons-row .code-btn:hover {
+  background: black;
 }
 
 .project .img-container {
@@ -575,6 +612,7 @@ li::after {
   -webkit-transition: 1s ease-in-out 0.25s;
   transition: 1s ease-in-out 0.25s;
   width: 80%;
+  pointer-events: none;
 }
 
 .welcome-message h1 {

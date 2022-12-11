@@ -368,28 +368,66 @@ li::after {
     font-size: var(--normal-paragraph-font-size);
   }
 
-  .project-footer {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 6px;
+  .tech-tags {
+    span {
+      border-radius: 4px;
+      background: none;
+      padding: 0.2em 0.6em;
+      font-size: 0.9rem;
+    }
+    .next {
+      color: #34bfff;
+      border: 1px solid #34bfff;
+    }
+    .js {
+      color: #ffb800;
+      border: 1px solid #ffb800;
+    }
+    .html,
+    .css {
+      color: #98c1d9;
+      border: 1px solid #98c1d9;
+    }
+    .react {
+      color: #34bfff;
+      border: 1px solid #34bfff;
+    }
+    .fullstack {
+      color: #2bbb4b;
+      border: 1px solid #2bbb4b;
+    }
+  }
+
+  .buttons-row {
     .btn {
       padding: 0.4em 0.6em;
       border-radius: 3px;
-      border: 1px solid var(--accent-color);
+      border: 1px solid #ffb800;
       margin-top: 6px;
       cursor: pointer;
       background: none;
+      transition: 0.25s ease-in-out;
       a {
         text-decoration: none;
-        color: var(--accent-color);
+        color: #ffb800;
         font-size: 1.1rem;
+        font-weight: normal;
+        font-family: 'Poppins';
+        transition: 0.25s ease-in-out;
+      }
+      &:hover {
+        background: black;
       }
     }
-    .tech-icon {
-      color: #fff;
-      font-size: 2.2rem;
-      max-height: 34px;
+    .code-btn {
+      border: 1px solid var(--secondary-text-color);
+      a {
+        font-weight: bold;
+        color: var(--secondary-text-color);
+      }
+      &:hover {
+        background: black;
+      }
     }
   }
 
@@ -478,6 +516,7 @@ li::after {
   opacity: 0;
   transition: 1s ease-in-out 0.25s;
   width: 80%;
+  pointer-events: none;
   h1 {
     font-weight: 600;
     font-size: 6rem;

@@ -9,6 +9,8 @@ import vertexShader from '../src/shaders/vertexShader.glsl';
 import cameraToPosition from '../src/CameraController/CameraController.js';
 import WorkSection from '../src/WorkSection/WorkSection.js';
 import { CubeCamera } from 'three';
+import projectsArray from '../src/Projects.js';
+
 WorkSection;
 
 //Debug
@@ -299,7 +301,6 @@ roomTexture.encoding = THREE.sRGBEncoding;
 armTexture.encoding = THREE.sRGBEncoding;
 
 //Materials
-
 const roomMaterial = new THREE.MeshBasicMaterial({ map: roomTexture });
 const armMaterial = new THREE.MeshBasicMaterial({ map: armTexture });
 
@@ -336,13 +337,6 @@ gltfLoader.load('./models/arm&book.glb', (gltf) => {
   part2 =
     gltf.scene.children[0].children[0].children[0].children[0].children[0]
       .children[0];
-
-  //part3.rotation.z = 1.844;
-  // pane.addInput(part2.rotation, 'y', {
-  //   min: -Math.PI,
-  //   max: Math.PI,
-  //   step: 0.001,
-  // });
   gltf.scene.traverse((child) => {
     child.material = armMaterial;
   });
@@ -376,43 +370,33 @@ function armFinalState() {
   gsap.to(part3.rotation, {
     z: 1.844,
     duration: 2,
-    delay: 3,
+    delay: 7,
     stagger: 0.1,
     ease: 'bounce.out',
   });
-  setTimeout(() => {
-    armTimeline.to(part2.rotation, {
-      y: Math.PI,
-      duration: 5,
-      delay: 0.5,
-      ease: 'bounce.out',
-    });
-    armTimeline.to(part2.rotation, {
-      y: -Math.PI,
-      duration: 5,
-      delay: 0.5,
-      ease: 'bounce.out',
-    });
-  }, 3000);
+  armTimeline.to(part2.rotation, {
+    y: Math.PI,
+    duration: 5,
+    delay: 3.5,
+    ease: 'bounce.out',
+  });
+  armTimeline.to(part2.rotation, {
+    y: -Math.PI,
+    duration: 5,
+    delay: 3.5,
+    ease: 'bounce.out',
+  });
   armTimeline2.to(part.rotation, {
     y: Math.PI / 2,
     duration: 6,
-    delay: 1.5,
+    delay: 4.5,
   });
   armTimeline2.to(part.rotation, {
     y: -Math.PI / 2,
     duration: 6,
-    delay: 1.5,
+    delay: 4.5,
   });
 }
-
-window.addEventListener('dblclick', () => {
-  animsArm.forEach((anim) => {
-    anim.play();
-    anim.setLoop(THREE.LoopOnce, 1);
-    anim.clampWhenFinished = true;
-  });
-});
 
 //Screens
 let screenReady = false;
@@ -486,6 +470,7 @@ camera.setFocalLength(debugObject.focalLength);
 let homePosition = {};
 camera.position.set(7.5, 6.83, 7.06);
 camera.rotation.set(-1.93, -1.23, -1.95);
+
 if (sizes.width <= 600) {
   homePosition.position = { x: -11.44, y: 13.53, z: 5.82 };
   homePosition.rotation = { x: -0.72, y: -1.04, z: -0.64 };
@@ -521,19 +506,6 @@ gsap.to(camera, {
     camera.updateProjectionMatrix();
   },
 });
-
-// settings.hidden = true;
-
-// settings
-//   .addInput(debugObject, 'zoom', {
-//     min: 0,
-//     max: 5,
-//     step: 0.001,
-//   })
-//   .on('change', () => {
-//     camera.zoom = debugObject.zoom;
-//     camera.updateProjectionMatrix();
-//   });
 
 if (location.hash === '#debug') {
   // settings.hidden = false;
@@ -657,8 +629,8 @@ if (sizes.width <= 600) {
   sectionArray = [
     {
       name: 'contact',
-      position: new THREE.Vector3(8.201, 6.69, 7.48),
-      rotation: new THREE.Vector3(-2.89, -0.9, -2.94),
+      position: new THREE.Vector3(7.5, 6.83, 7.06),
+      rotation: new THREE.Vector3(-1.93, -1.23, -1.95),
     },
     {
       name: 'projects',
@@ -703,7 +675,6 @@ navLinks.forEach((link) => {
       item.classList.remove('active');
     });
     link.classList.add('active');
-    //target.classList.add('active-section');
     let activeSection = null;
     navLinks.forEach((item) => {
       if (item.className.includes('active')) {
@@ -790,7 +761,7 @@ const tick = () => {
   // console.log(camera.zoom);
 
   if (mixer !== undefined && robotReady) {
-    mixer.update(delta * 0.005);
+    mixer.update(delta * 0.002);
   }
 
   if (screenReady) {
