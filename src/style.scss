@@ -199,6 +199,13 @@ li::after {
   font-size: var(--normal-paragraph-font-size);
 }
 
+.about-section h3 {
+  color: var(--secondary-text-color);
+  margin-top: 1rem;
+  font-size: 2rem;
+  margin-bottom: -1.5rem;
+}
+
 .container {
   width: 100%;
   max-width: 550px;
@@ -207,6 +214,46 @@ li::after {
 .skills {
   margin-top: 2.8125rem;
   width: 100%;
+}
+
+.about-section h4 {
+  font-size: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  color: var(--primary-text-color);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.about-section .other {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  span {
+    border: 1px solid white;
+    border-radius: 4px;
+    background: none;
+    padding: 0.2em 0.6em;
+    font-size: 0.9rem;
+    color: white;
+  }
+  margin-bottom: 40px;
+}
+
+.about-section a {
+  padding: 0.4em 0.6em;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  background: var(--accent-color);
+  border: 0;
+  color: var(--normal-text-color);
+  text-decoration: none;
+  font-weight: 300;
+  align-items: center;
+  .cv-icon {
+    color: var(--normal-text-color);
+  }
 }
 
 .skills h3 {
@@ -290,10 +337,11 @@ li::after {
 .contact-section {
   .container {
     h3 {
-      font-size: 25px;
-      color: var(--accent-color);
-      margin: 20px 0px;
-      font-weight: 400;
+      color: var(--secondary-text-color);
+      margin-top: 1rem;
+      font-size: 2rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.6rem;
     }
     .form-container {
       width: 100%;
@@ -330,6 +378,12 @@ li::after {
           color: var(--normal-text-color);
         }
       }
+    }
+    .bottom-row {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: space-between;
       button {
         align-self: flex-end;
         font-size: 1.25rem;
@@ -340,6 +394,20 @@ li::after {
         color: var(--normal-text-color);
         cursor: pointer;
         font-weight: 300;
+      }
+      .socials {
+        font-size: 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        a {
+          color: var(--normal-text-color);
+          transition: 0.25s ease-in-out;
+          &:hover {
+            color: var(--accent-color);
+          }
+        }
       }
     }
   }
@@ -362,13 +430,16 @@ li::after {
   }
   p {
     color: #ccc;
-    min-height: 76px;
-    min-height: 105px;
+    min-height: 90px;
     font-weight: normal;
     font-size: var(--normal-paragraph-font-size);
   }
 
   .tech-tags {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
     span {
       border-radius: 4px;
       background: none;
@@ -399,6 +470,10 @@ li::after {
   }
 
   .buttons-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
     .btn {
       padding: 0.4em 0.6em;
       border-radius: 3px;

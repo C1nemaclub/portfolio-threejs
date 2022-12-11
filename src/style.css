@@ -230,6 +230,13 @@ li::after {
   font-size: var(--normal-paragraph-font-size);
 }
 
+.about-section h3 {
+  color: var(--secondary-text-color);
+  margin-top: 1rem;
+  font-size: 2rem;
+  margin-bottom: -1.5rem;
+}
+
 .container {
   width: 100%;
   max-width: 550px;
@@ -238,6 +245,57 @@ li::after {
 .skills {
   margin-top: 2.8125rem;
   width: 100%;
+}
+
+.about-section h4 {
+  font-size: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+  color: var(--primary-text-color);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.about-section .other {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 4px;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.about-section .other span {
+  border: 1px solid white;
+  border-radius: 4px;
+  background: none;
+  padding: 0.2em 0.6em;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.about-section a {
+  padding: 0.4em 0.6em;
+  font-size: 1.1rem;
+  border-radius: 4px;
+  background: var(--accent-color);
+  border: 0;
+  color: var(--normal-text-color);
+  text-decoration: none;
+  font-weight: 300;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.about-section a .cv-icon {
+  color: var(--normal-text-color);
 }
 
 .skills h3 {
@@ -331,10 +389,11 @@ li::after {
 }
 
 .contact-section .container h3 {
-  font-size: 25px;
-  color: var(--accent-color);
-  margin: 20px 0px;
-  font-weight: 400;
+  color: var(--secondary-text-color);
+  margin-top: 1rem;
+  font-size: 2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .contact-section .container .form-container {
@@ -403,7 +462,20 @@ li::after {
   color: var(--normal-text-color);
 }
 
-.contact-section .container .form-container button {
+.contact-section .container .bottom-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.contact-section .container .bottom-row button {
   -ms-flex-item-align: end;
       align-self: flex-end;
   font-size: 1.25rem;
@@ -414,6 +486,30 @@ li::after {
   color: var(--normal-text-color);
   cursor: pointer;
   font-weight: 300;
+}
+
+.contact-section .container .bottom-row .socials {
+  font-size: 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 8px;
+}
+
+.contact-section .container .bottom-row .socials a {
+  color: var(--normal-text-color);
+  -webkit-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+}
+
+.contact-section .container .bottom-row .socials a:hover {
+  color: var(--accent-color);
 }
 
 .project {
@@ -435,10 +531,22 @@ li::after {
 
 .project p {
   color: #ccc;
-  min-height: 76px;
-  min-height: 105px;
+  min-height: 90px;
   font-weight: normal;
   font-size: var(--normal-paragraph-font-size);
+}
+
+.project .tech-tags {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 4px;
 }
 
 .project .tech-tags span {
@@ -472,6 +580,19 @@ li::after {
 .project .tech-tags .fullstack {
   color: #2bbb4b;
   border: 1px solid #2bbb4b;
+}
+
+.project .buttons-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 4px;
 }
 
 .project .buttons-row .btn {

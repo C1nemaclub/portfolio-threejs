@@ -13,6 +13,12 @@ import projectsArray from '../src/Projects.js';
 
 WorkSection;
 
+//Make all the sections invisible at Start
+const contentSections = document.querySelectorAll('.content-section');
+contentSections.forEach((section) => {
+  section.style.display = 'none';
+});
+
 //Debug
 let pane;
 if (location.hash === '#debug') {
@@ -138,6 +144,7 @@ let material = null;
 let geometry = null;
 let points = null;
 
+//Create Galaxy
 function generateGalaxy() {
   if (points !== null) {
     geometry.dispose();
@@ -230,7 +237,7 @@ function generateGalaxy() {
   scene.add(points);
 }
 
-// Galaxy.hidden = true;
+//Galaxy Debug
 if (location.hash === '#debug') {
   // Galaxy.hidden = false;
   const Galaxy = pane.addFolder({
@@ -367,35 +374,37 @@ function playRobotAnim() {
 const armTimeline = gsap.timeline({ repeat: 1 });
 const armTimeline2 = gsap.timeline({ repeat: 1 });
 function armFinalState() {
-  gsap.to(part3.rotation, {
-    z: 1.844,
-    duration: 2,
-    delay: 7,
-    stagger: 0.1,
-    ease: 'bounce.out',
-  });
-  armTimeline.to(part2.rotation, {
-    y: Math.PI,
-    duration: 5,
-    delay: 3.5,
-    ease: 'bounce.out',
-  });
-  armTimeline.to(part2.rotation, {
-    y: -Math.PI,
-    duration: 5,
-    delay: 3.5,
-    ease: 'bounce.out',
-  });
-  armTimeline2.to(part.rotation, {
-    y: Math.PI / 2,
-    duration: 6,
-    delay: 4.5,
-  });
-  armTimeline2.to(part.rotation, {
-    y: -Math.PI / 2,
-    duration: 6,
-    delay: 4.5,
-  });
+  setTimeout(() => {
+    gsap.to(part3.rotation, {
+      z: 1.844,
+      duration: 2,
+      delay: 7,
+      stagger: 0.1,
+      ease: 'bounce.out',
+    });
+    armTimeline.to(part2.rotation, {
+      y: Math.PI,
+      duration: 5,
+      delay: 3.5,
+      ease: 'bounce.out',
+    });
+    armTimeline.to(part2.rotation, {
+      y: -Math.PI,
+      duration: 5,
+      delay: 3.5,
+      ease: 'bounce.out',
+    });
+    armTimeline2.to(part.rotation, {
+      y: Math.PI / 2,
+      duration: 6,
+      delay: 4.5,
+    });
+    armTimeline2.to(part.rotation, {
+      y: -Math.PI / 2,
+      duration: 6,
+      delay: 4.5,
+    });
+  }, 2500);
 }
 
 //Screens
@@ -507,6 +516,7 @@ gsap.to(camera, {
   },
 });
 
+//Camera Debug
 if (location.hash === '#debug') {
   // settings.hidden = false;
   const settings = pane.addFolder({
@@ -663,13 +673,13 @@ if (sizes.width <= 600) {
   ];
 }
 
-const contentSections = document.querySelectorAll('.content-section');
 const navLinks = document.querySelectorAll('.navlink');
 navLinks.forEach((link) => {
   link.addEventListener('click', (e) => {
     const target = document.querySelector(link.dataset.target);
     contentSections.forEach((section) => {
       section.classList.remove('active-section');
+      section.style.display = 'block';
     });
     navLinks.forEach((item) => {
       item.classList.remove('active');
@@ -711,6 +721,9 @@ navLinks.forEach((link) => {
 const backBtn = document.querySelector('.back-btn');
 
 backBtn.addEventListener('click', (e) => {
+  contentSections.forEach((section) => {
+    section.style.display = 'none';
+  });
   backBtn.classList.remove('selected');
   if (sizes.width <= 768) {
     navBar.classList.remove('active');
