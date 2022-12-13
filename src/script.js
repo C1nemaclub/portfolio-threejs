@@ -338,7 +338,7 @@ let part3;
 let robotReady = false;
 let mixer;
 const animsArm = [];
-gltfLoader.load('./models/arm&book.glb', (gltf) => {
+gltfLoader.load('./models/armature.glb', (gltf) => {
   part = gltf.scene.children[0].children[0];
   part3 = gltf.scene.children[0].children[0].children[0].children[0];
   part2 =
@@ -759,13 +759,6 @@ const tick = () => {
 
   raycaster.setFromCamera(cursor, camera);
   material.uniforms.uTime.value = elapsedTime;
-  if (robotReady) {
-    //part2.rotation.y = elapsedTime * 5;
-    const intersects = raycaster.intersectObjects([part, part2, part3], false);
-    if (intersects.length > 0) {
-      console.log(intersects[0].object.name);
-    }
-  }
 
   // Update controls
   //controls.update();
